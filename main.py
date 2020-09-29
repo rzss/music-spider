@@ -27,11 +27,9 @@ import time
 
 
 def download(url, name):
-    if not os.path.exists('music'):  # 创建文件夹
-        os.mkdir('music')
     header = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'}  # 设置头文件，简单的爬虫伪装
-    path = 'music/' + name.replace('/', '').replace('\\', '').replace(':', '').replace(
+    path = 'E:/娱乐/music/' + name.replace('/', '').replace('\\', '').replace(':', '').replace(
         '*', '').replace('"', '').replace('<', '').replace('|', '').replace('?', '').replace(',', '')  # 设置路径和文件名，并去除文件名中不允许的字符
 
     if not os.path.exists(path) or os.path.getsize(path) == 0:  # 文件不存在或大小为0时开始下载
@@ -54,7 +52,7 @@ def parse(lists):
         if 'lrc' in lis:
             download(lis['lrc'], name+'.lrc')
         if 'url_flac' in lis:
-            download(lis['url_flac'], name+'.mp3')
+            download(lis['url_flac'], name+'.flac')
         elif 'url_320' in lis:
             download(lis['url_320'], name + '.mp3')
         elif 'url_128' in lis:
@@ -66,6 +64,8 @@ def parse(lists):
 
 
 def main():
+    if not os.path.exists('E:/娱乐/music'):  # 创建文件夹
+        os.mkdir('E:/娱乐/music')
     with open('music_list.json', 'r', encoding='utf-8') as raw:
         music_lists = json.load(raw)['data']['list']
         parse(music_lists)
